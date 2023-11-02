@@ -563,13 +563,20 @@ class TiendaTest {
 		try {
 			prodHome.beginTransaction();
 		
-			List<Producto> listProd = prodHome.findAll();		
+			List<Producto> listProd = prodHome.findAll();
 			
 			//TODO STREAMS
-			final Set<Integer> listcodfab = listProd.stream()
-							.filter(producto -> producto.getFabricante().getCodigo() == 1 || producto.getFabricante().getCodigo()==3 || producto.getFabricante().getCodigo()==5)
-									.map(producto -> producto.getFabricante().getCodigo())
-											.distinct().collect(toSet());
+			final Set<Integer>codigosFabricante = new HashSet<>();
+			codigosFabricante.add(1);
+			codigosFabricante.add(3);
+			codigosFabricante.add(5);
+
+			Set<String> lista=listProd.stream()
+					.filter(producto -> codigosFabricante.contains(producto.getFabricante().getCodigo()))
+					.distinct()
+					.map(producto -> "Nombre: "+producto.getNombre()+"Codigo Fabricante: "+producto.getFabricante().getCodigo()).collect(toSet());
+			lista.forEach(System.out::println);
+
 
 				
 			prodHome.commitTransaction();
