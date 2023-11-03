@@ -113,16 +113,11 @@ class TiendaTest {
 	 */
 	@Test
 	void test1() {
-	
+
 		ProductoHome prodHome = new ProductoHome();
-		
 		try {
 			prodHome.beginTransaction();
-			
 			List<Producto> listProd = prodHome.findAll();
-			prodHome.beginTransaction();
-
-
 
 			List<String> nombrePrecio = listProd.stream().map(producto -> "Nombre" + producto.getNombre() + ", precio" + producto.getPrecio())
 					.collect(toList());
@@ -936,7 +931,7 @@ Fabricante: Xiaomi
 					
 			//TODO STREAMS
 			List<String> fabricantes = listFab.stream()
-							.map(fabricante -> "Fabricante: " + fabricante.getNombre() + "\n \t Productos: \n \t" + fabricante.getProductos().stream().map(producto -> producto.getNombre()).collect(toList()).toString().replace("[" , "").replace("]", "")).collect(toList());
+							.map(fabricante -> "Fabricante: " + fabricante.getNombre() + "\n\t Productos:\n \t " + fabricante.getProductos().stream().map(producto -> producto.getNombre()).collect(toList()).toString().replace("[" , "").replace("]", "").replace("," , "\n\t") + "\n").collect(toList());
 			fabricantes.forEach(System.out::println);
 								
 			fabHome.commitTransaction();
@@ -1296,7 +1291,7 @@ Hewlett-Packard              2
 			//TODO STREAMS
 			List<String> lista = listFab.stream()
 							.filter(fabricante -> fabricante.getProductos().size() >= 2)
-									.map(fabricante -> fabricante.getNombre()).collect(toList());
+									.map(fabricante -> fabricante.getNombre() + " " + fabricante.getProductos().size()).collect(toList());
 			lista.forEach(System.out::println);
 			fabHome.commitTransaction();
 		}
@@ -1348,7 +1343,7 @@ Hewlett-Packard              2
 				
 			//TODO STREAMS
 		List<String> lista = listFab.stream()
-						.filter(fabricante -> fabricante.getProductos().stream().map(producto -> producto.getPrecio()).reduce((a,b) -> (a+b)).get()>1000)
+						.filter(																																																																																																																																																																																																																																																																																																																			fabricante -> fabricante.getProductos().stream().map(producto -> producto.getPrecio()).reduce((a,b) -> (a+b)).get()>1000)
 								.map(fabricante -> fabricante.getNombre()).collect(toList());
 		lista.forEach(System.out::println);
 			fabHome.commitTransaction();
